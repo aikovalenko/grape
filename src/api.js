@@ -22,7 +22,6 @@ async function getIp() {
       },
       responseType: 'text',
     }).then(response => {
-      console.log(response.data.values)
       menu.set(response.data.values)
     })
   } catch (error) {
