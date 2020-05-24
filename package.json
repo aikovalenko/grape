@@ -1,0 +1,41 @@
+{
+  "name": "grape",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start": "sirv public",
+    "deploy": ""
+  },
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^1.3.0",
+    "@rollup/plugin-commonjs": "^11.0.0",
+    "@rollup/plugin-node-resolve": "^6.0.0",
+    "@rollup/plugin-replace": "^2.3.1",
+    "autoprefixer": "^9.7.4",
+    "cssnano": "^4.1.10",
+    "dotenv": "^8.2.0",
+    "minimist": "^1.2.5",
+    "postcss": "^7.0.25",
+    "postcss-import": "^12.0.1",
+    "postcss-load-config": "^2.1.0",
+    "rollup": "^2.2.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-livereload": "^1.0.0",
+    "rollup-plugin-postcss": "^2.0.3",
+    "rollup-plugin-svelte": "^5.0.3",
+    "rollup-plugin-terser": "^5.1.2",
+    "svelte": "^3.0.0",
+    "svelte-preprocess": "^3.7.1",
+    "tailwindcss": "^1.1.4"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "sirv-cli": "^0.4.4"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
