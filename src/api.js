@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { waitingResponse } from './stores'
+import { waitingResponse, menu } from './stores'
 
 function reloadApp() {
   setTimeout(() => {
@@ -22,11 +22,11 @@ async function getIp() {
       },
       responseType: 'text',
     }).then(response => {
-      console.log(response)
+      menu.set(response.data.values)
     })
   } catch (error) {
     console.error(error)
   }
 }
 
-export { getIp, getAccount, activate, withdraw }
+export { getIp }

@@ -1,7 +1,9 @@
 <script>
   import { onMount } from 'svelte'
-  import {waitingResponse} from './stores.js'
+  import {waitingResponse, menu} from './stores.js'
   import { getIp } from './api'
+
+  import Tailwindcss from "./Tailwindcss.svelte"
 
   onMount(() => {
     getIp()
@@ -15,4 +17,4 @@
   <title>Grape Cafe</title>
 </svelte:head>
 
-<div>sdsdsd</div>
+<div class="text-white">{$menu}</div>

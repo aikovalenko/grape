@@ -3,7 +3,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import livereload from "rollup-plugin-livereload";
 import svelte from "rollup-plugin-svelte";
 import {terser} from "rollup-plugin-terser";
-import replace from '@rollup/plugin-replace';
+// import replace from '@rollup/plugin-replace';
 import sveltePreprocess from 'svelte-preprocess';
 
 const purgecss = require("@fullhuman/postcss-purgecss")
@@ -15,12 +15,9 @@ export default {
     sourcemap: true,
     format: "iife",
     name: "app",
-    file: "public/build/bundle.js"
+    file: "docs/build/bundle.js"
   },
   plugins: [
-    replace({
-      __apiUrl__: production ? 'https://miner.stormgain.com/api/v1/' : 'https://cloudminer.web2.dev.fxclub.org/api/v1/'
-    }),
     svelte({
       // enable run-time checks when not in production
       dev: !production,
@@ -28,7 +25,7 @@ export default {
       // we'll extract any component CSS out into
       // a separate file — better for performance
       css: css => {
-        css.write("public/build/bundle.css");
+        css.write("docs/build/bundle.css");
       }
     }),
 
@@ -50,7 +47,7 @@ export default {
 
     // Watch the `public` directory and refresh the
     // browser on changes when not in production
-    !production && livereload("public"),
+    !production && livereload("docs"),
 
     // If we're building for production (npm run build
     // instead of npm run dev), minify
