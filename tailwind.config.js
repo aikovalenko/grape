@@ -1,7 +1,7 @@
 module.exports = {
   theme: {
     fontFamily: {
-      'display': ['"Overpass Mono"', 'monospace']
+      'display': ['"Helvetica"']
     },
     extend: {
       colors: {

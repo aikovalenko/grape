@@ -10,47 +10,16 @@
     height: 100%;
     width: 100%;
     padding: 0;
-    @apply bg-main;
-    @apply font-display;
-    @apply antialiased;
+    @apply
+    bg-gray-300
+    font-display
+    antialiased;
   }
 
   .wrapper {
-    max-width: 480px;
-    @apply mx-auto;
-    @apply px-4;
+    max-width: 900px;
+    @apply
+    mx-auto
+    px-4;
   }
-
-  @keyframes move {
-    0% {
-      left: -10%;
-    }
-
-    100% {
-      left: 110%;
-    }
-  }
-
-  @keyframes move-reverse {
-    0% {
-      right: -10%;
-    }
-
-    100% {
-      right: 110%;
-    }
-  }
-
-  .animation {
-    animation-name: move;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
-  }
-
-  .animation-reverse {
-    animation-name: move-reverse;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
-  }
-
 </style>

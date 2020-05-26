@@ -1941,75 +1941,26 @@ var app = (function () {
 
     function get_each_context_1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[3] = list[i];
+    	child_ctx[4] = list[i];
     	return child_ctx;
     }
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[3] = list[i];
+    	child_ctx[4] = list[i];
     	return child_ctx;
     }
 
-    // (25:4) {#each $menu[i] as i}
-    function create_each_block_1(ctx) {
-    	let div0;
-    	let t0_value = /*i*/ ctx[3][itemIndex("name-ru", /*$headerss*/ ctx[2])] + "";
-    	let t0;
-    	let t1;
-    	let div1;
-    	let t2_value = /*i*/ ctx[3][itemIndex("description-ru", /*$headerss*/ ctx[2])] + "";
-    	let t2;
-
-    	const block = {
-    		c: function create() {
-    			div0 = element("div");
-    			t0 = text(t0_value);
-    			t1 = space();
-    			div1 = element("div");
-    			t2 = text(t2_value);
-    			add_location(div0, file, 25, 6, 573);
-    			add_location(div1, file, 26, 6, 627);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div0, anchor);
-    			append_dev(div0, t0);
-    			insert_dev(target, t1, anchor);
-    			insert_dev(target, div1, anchor);
-    			append_dev(div1, t2);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty & /*$menu, $types, $headerss*/ 7 && t0_value !== (t0_value = /*i*/ ctx[3][itemIndex("name-ru", /*$headerss*/ ctx[2])] + "")) set_data_dev(t0, t0_value);
-    			if (dirty & /*$menu, $types, $headerss*/ 7 && t2_value !== (t2_value = /*i*/ ctx[3][itemIndex("description-ru", /*$headerss*/ ctx[2])] + "")) set_data_dev(t2, t2_value);
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div0);
-    			if (detaching) detach_dev(t1);
-    			if (detaching) detach_dev(div1);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_1.name,
-    		type: "each",
-    		source: "(25:4) {#each $menu[i] as i}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (22:0) {#each $types as i}
-    function create_each_block(ctx) {
+    // (25:4) {#if $menu[i].length !== 0}
+    function create_if_block(ctx) {
     	let div1;
     	let div0;
-    	let t0_value = /*i*/ ctx[3] + "";
+    	let t0_value = /*i*/ ctx[4] + "";
     	let t0;
     	let t1;
     	let t2;
     	let t3;
-    	let each_value_1 = /*$menu*/ ctx[1][/*i*/ ctx[3]];
+    	let each_value_1 = /*$menu*/ ctx[2][/*i*/ ctx[4]];
     	validate_each_argument(each_value_1);
     	let each_blocks = [];
 
@@ -2030,9 +1981,10 @@ var app = (function () {
     			}
 
     			t3 = space();
-    			add_location(div0, file, 23, 4, 525);
-    			attr_dev(div1, "class", "mb-12 text-white");
-    			add_location(div1, file, 22, 2, 490);
+    			attr_dev(div0, "class", "mb-4");
+    			add_location(div0, file, 26, 8, 628);
+    			attr_dev(div1, "class", "mb-12");
+    			add_location(div1, file, 25, 6, 600);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
@@ -2048,10 +2000,10 @@ var app = (function () {
     			append_dev(div1, t3);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*$types*/ 1 && t0_value !== (t0_value = /*i*/ ctx[3] + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*$types*/ 2 && t0_value !== (t0_value = /*i*/ ctx[4] + "")) set_data_dev(t0, t0_value);
 
-    			if (dirty & /*$menu, $types, itemIndex, $headerss*/ 7) {
-    				each_value_1 = /*$menu*/ ctx[1][/*i*/ ctx[3]];
+    			if (dirty & /*$menu, $types, itemIndex, lang, $headerss*/ 15) {
+    				each_value_1 = /*$menu*/ ctx[2][/*i*/ ctx[4]];
     				validate_each_argument(each_value_1);
     				let i;
 
@@ -2082,9 +2034,116 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
+    		id: create_if_block.name,
+    		type: "if",
+    		source: "(25:4) {#if $menu[i].length !== 0}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (28:8) {#each $menu[i] as i}
+    function create_each_block_1(ctx) {
+    	let t0_value = /*i*/ ctx[4] + "";
+    	let t0;
+    	let t1;
+    	let div2;
+    	let div0;
+    	let t2_value = /*i*/ ctx[4][itemIndex("name-" + /*lang*/ ctx[0], /*$headerss*/ ctx[3])] + "";
+    	let t2;
+    	let t3;
+    	let div1;
+    	let t4_value = /*i*/ ctx[4][itemIndex("description-" + /*lang*/ ctx[0], /*$headerss*/ ctx[3])] + "";
+    	let t4;
+
+    	const block = {
+    		c: function create() {
+    			t0 = text(t0_value);
+    			t1 = space();
+    			div2 = element("div");
+    			div0 = element("div");
+    			t2 = text(t2_value);
+    			t3 = space();
+    			div1 = element("div");
+    			t4 = text(t4_value);
+    			add_location(div0, file, 30, 12, 742);
+    			add_location(div1, file, 31, 12, 807);
+    			attr_dev(div2, "class", "mb-8");
+    			add_location(div2, file, 29, 10, 711);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, t0, anchor);
+    			insert_dev(target, t1, anchor);
+    			insert_dev(target, div2, anchor);
+    			append_dev(div2, div0);
+    			append_dev(div0, t2);
+    			append_dev(div2, t3);
+    			append_dev(div2, div1);
+    			append_dev(div1, t4);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*$menu, $types*/ 6 && t0_value !== (t0_value = /*i*/ ctx[4] + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*$menu, $types, $headerss*/ 14 && t2_value !== (t2_value = /*i*/ ctx[4][itemIndex("name-" + /*lang*/ ctx[0], /*$headerss*/ ctx[3])] + "")) set_data_dev(t2, t2_value);
+    			if (dirty & /*$menu, $types, $headerss*/ 14 && t4_value !== (t4_value = /*i*/ ctx[4][itemIndex("description-" + /*lang*/ ctx[0], /*$headerss*/ ctx[3])] + "")) set_data_dev(t4, t4_value);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t0);
+    			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(div2);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_1.name,
+    		type: "each",
+    		source: "(28:8) {#each $menu[i] as i}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (24:2) {#each $types as i}
+    function create_each_block(ctx) {
+    	let if_block_anchor;
+    	let if_block = /*$menu*/ ctx[2][/*i*/ ctx[4]].length !== 0 && create_if_block(ctx);
+
+    	const block = {
+    		c: function create() {
+    			if (if_block) if_block.c();
+    			if_block_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			if (if_block) if_block.m(target, anchor);
+    			insert_dev(target, if_block_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (/*$menu*/ ctx[2][/*i*/ ctx[4]].length !== 0) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+    				} else {
+    					if_block = create_if_block(ctx);
+    					if_block.c();
+    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+    				}
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (if_block) if_block.d(detaching);
+    			if (detaching) detach_dev(if_block_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(22:0) {#each $types as i}",
+    		source: "(24:2) {#each $types as i}",
     		ctx
     	});
 
@@ -2093,12 +2152,11 @@ var app = (function () {
 
     function create_fragment$1(ctx) {
     	let t0;
-    	let link;
     	let t1;
-    	let each_1_anchor;
+    	let div;
     	let current;
     	const tailwindcss = new Tailwindcss({ $$inline: true });
-    	let each_value = /*$types*/ ctx[0];
+    	let each_value = /*$types*/ ctx[1];
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -2110,18 +2168,16 @@ var app = (function () {
     		c: function create() {
     			create_component(tailwindcss.$$.fragment);
     			t0 = space();
-    			link = element("link");
     			t1 = space();
+    			div = element("div");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
-    			each_1_anchor = empty();
-    			attr_dev(link, "href", "https://fonts.googleapis.com/css?family=Overpass+Mono:400,600&display=swap");
-    			attr_dev(link, "rel", "stylesheet");
-    			add_location(link, file, 16, 2, 317);
     			document.title = "Grape Cafe";
+    			attr_dev(div, "class", "wrapper py-8 text-black");
+    			add_location(div, file, 22, 0, 502);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2129,19 +2185,18 @@ var app = (function () {
     		m: function mount(target, anchor) {
     			mount_component(tailwindcss, target, anchor);
     			insert_dev(target, t0, anchor);
-    			append_dev(document.head, link);
     			insert_dev(target, t1, anchor);
+    			insert_dev(target, div, anchor);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(target, anchor);
+    				each_blocks[i].m(div, null);
     			}
 
-    			insert_dev(target, each_1_anchor, anchor);
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*$menu, $types, itemIndex, $headerss*/ 7) {
-    				each_value = /*$types*/ ctx[0];
+    			if (dirty & /*$menu, $types, itemIndex, lang, $headerss*/ 15) {
+    				each_value = /*$types*/ ctx[1];
     				validate_each_argument(each_value);
     				let i;
 
@@ -2153,7 +2208,7 @@ var app = (function () {
     					} else {
     						each_blocks[i] = create_each_block(child_ctx);
     						each_blocks[i].c();
-    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    						each_blocks[i].m(div, null);
     					}
     				}
 
@@ -2176,10 +2231,9 @@ var app = (function () {
     		d: function destroy(detaching) {
     			destroy_component(tailwindcss, detaching);
     			if (detaching) detach_dev(t0);
-    			detach_dev(link);
     			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(div);
     			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
     		}
     	};
 
@@ -2199,11 +2253,12 @@ var app = (function () {
     	let $menu;
     	let $headerss;
     	validate_store(types, "types");
-    	component_subscribe($$self, types, $$value => $$invalidate(0, $types = $$value));
+    	component_subscribe($$self, types, $$value => $$invalidate(1, $types = $$value));
     	validate_store(menu, "menu");
-    	component_subscribe($$self, menu, $$value => $$invalidate(1, $menu = $$value));
+    	component_subscribe($$self, menu, $$value => $$invalidate(2, $menu = $$value));
     	validate_store(headerss, "headerss");
-    	component_subscribe($$self, headerss, $$value => $$invalidate(2, $headerss = $$value));
+    	component_subscribe($$self, headerss, $$value => $$invalidate(3, $headerss = $$value));
+    	const lang = "ru";
 
     	onMount(() => {
     		getIp();
@@ -2227,18 +2282,19 @@ var app = (function () {
     		headerss,
     		getIp,
     		Tailwindcss,
+    		lang,
     		$types,
     		$menu,
     		$headerss
     	});
 
-    	return [$types, $menu, $headerss];
+    	return [lang, $types, $menu, $headerss];
     }
 
     class App extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$1, create_fragment$1, safe_not_equal, {});
+    		init(this, options, instance$1, create_fragment$1, safe_not_equal, { lang: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -2246,6 +2302,14 @@ var app = (function () {
     			options,
     			id: create_fragment$1.name
     		});
+    	}
+
+    	get lang() {
+    		return this.$$.ctx[0];
+    	}
+
+    	set lang(value) {
+    		throw new Error("<App>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
