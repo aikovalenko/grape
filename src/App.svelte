@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte'
-  import {waitingResponse, menu} from './stores.js'
+  import { itemIndex } from './functions'
+  import {waitingResponse, menu, types, headerss} from './stores.js'
   import { getIp } from './api'
 
   import Tailwindcss from "./Tailwindcss.svelte"
@@ -17,4 +18,13 @@
   <title>Grape Cafe</title>
 </svelte:head>
 
-<div class="text-white">{$menu}</div>
+
+{#each $types as i}
+  <div class="mb-12 text-white">
+    <div>{i}:</div>
+    {#each $menu[i] as i}
+      <div>{i[itemIndex('name-ru', $headerss)]}</div>
+      <div>{i[itemIndex('description-ru', $headerss)]}</div>
+    {/each}
+  </div>
+{/each}

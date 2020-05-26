@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { waitingResponse, menu } from './stores'
+import { itemIndex } from './functions'
+import { waitingResponse, menu, types, headerss } from './stores'
 
 function reloadApp() {
   setTimeout(() => {
@@ -22,7 +23,24 @@ async function getIp() {
       },
       responseType: 'text',
     }).then(response => {
-      menu.set(response.data.values)
+      let items = response.data.values
+      const t = response.data.values[0]
+      types.set(t)
+      // const types = response.data.values[0]
+      const headers = response.data.values[1]
+      items.splice(0, 2)
+
+
+      let obj = {}
+      t.forEach((i, index) => {
+        items.filter(item => item[itemIndex('type', headers)] === t[index])
+        obj[i] = items.filter(item => item[itemIndex('type', headers)] === t[index])
+      })
+
+      menu.set(items)
+      headerss.set(headers)
+      menu.set(obj)
+
     })
   } catch (error) {
     console.error(error)
