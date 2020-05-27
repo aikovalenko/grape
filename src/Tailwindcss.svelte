@@ -11,7 +11,7 @@
     width: 100%;
     padding: 0;
     @apply
-    bg-gray-300
+    bg-white
     font-display
     antialiased;
   }

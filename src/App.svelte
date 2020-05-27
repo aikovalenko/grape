@@ -27,14 +27,19 @@
   {#each $types as j}
     {#if $menu[j].length !== 0}
       <div class="mb-12">
-        <h3 class="mb-2 text-xl font-bold">{$t[j][lang]}:</h3>
+        <h3 class="mb-2 text-xl font-bold">{$t[j][lang]}</h3>
         {#each $menu[j] as i}
           <div class="relative mb-4">
             <div
-                class="{i[itemIndex('available', $headers)] === 'TRUE' ? '' : 'not-available'} flex justify-between"
+                class="{i[itemIndex('available', $headers)] === 'TRUE' ? '' : ''} flex justify-between"
             >
               <div class="pr-2">
                 <div class="font-bold">{ i[itemIndex('name-' + lang, $headers)] }</div>
+                {#if i[itemIndex('available', $headers)] === 'FALSE'}
+                  <div class="inline-block py-1 px-4 bg-red-300 rounded-lg">
+                    <div class="">Закончилось!</div>
+                  </div>
+                {/if}
                 {#if i[itemIndex('minimum', $headers)]}
                   <div class="text-sm text-gray-900">Минимальный заказ { i[itemIndex('minimum', $headers)] }г</div>
                 {/if}
@@ -43,19 +48,10 @@
               <div class="text-right">
                 <div class="font-bold">{ i[itemIndex('price', $headers)] }€</div>
                 <div>
-                  { i[itemIndex('portion', $headers)] }
-                  {#if j === 'alcohol'}
-                    л
-                    {:else}г
-                  {/if}
+                  { i[itemIndex('portion', $headers)] }{#if j === 'alcohol'}л{:else}г{/if}
                 </div>
               </div>
             </div>
-            {#if i[itemIndex('available', $headers)] === 'FALSE'}
-              <div class="">
-                <div class="">Закончилось!</div>
-              </div>
-            {/if}
           </div>
         {/each}
       </div>
