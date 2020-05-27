@@ -17,9 +17,9 @@
   }
 
   .wrapper {
-    max-width: 900px;
+    max-width: 640px;
     @apply
     mx-auto
-    px-4;
+    px-2;
   }
 </style>

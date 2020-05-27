@@ -419,7 +419,18 @@ var app = (function () {
     const waitingResponse = writable(true);
     const menu = writable('Connecting');
     const types = writable([]);
-    const headerss = writable([]);
+    const headers = writable([]);
+    const t = writable({
+      'salad': {
+        'ru': 'Салаты'
+      },
+      'grill': {
+        'ru': 'Блюда на гриле'
+      },
+      'alcohol': {
+        'ru': 'Алкогольные напитки'
+      }
+    });
 
     var bind = function bind(fn, thisArg) {
       return function wrap() {
@@ -1862,20 +1873,18 @@ var app = (function () {
         }).then(response => {
           let items = response.data.values;
           const t = response.data.values[0];
-          types.set(t);
-          // const types = response.data.values[0]
-          const headers = response.data.values[1];
+          const h = response.data.values[1];
           items.splice(0, 2);
 
 
           let obj = {};
           t.forEach((i, index) => {
-            items.filter(item => item[itemIndex('type', headers)] === t[index]);
-            obj[i] = items.filter(item => item[itemIndex('type', headers)] === t[index]);
+            items.filter(item => item[itemIndex('type', h)] === t[index]);
+            obj[i] = items.filter(item => item[itemIndex('type', h)] === t[index]);
           });
 
-          menu.set(items);
-          headerss.set(headers);
+          types.set(t);
+          headers.set(h);
           menu.set(obj);
 
         });
@@ -1941,26 +1950,26 @@ var app = (function () {
 
     function get_each_context_1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[4] = list[i];
+    	child_ctx[8] = list[i];
     	return child_ctx;
     }
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[4] = list[i];
+    	child_ctx[5] = list[i];
     	return child_ctx;
     }
 
-    // (25:4) {#if $menu[i].length !== 0}
+    // (28:4) {#if $menu[j].length !== 0}
     function create_if_block(ctx) {
-    	let div1;
-    	let div0;
-    	let t0_value = /*i*/ ctx[4] + "";
+    	let div;
+    	let h3;
+    	let t0_value = /*$t*/ ctx[3][/*j*/ ctx[5]][/*lang*/ ctx[0]] + "";
     	let t0;
     	let t1;
     	let t2;
     	let t3;
-    	let each_value_1 = /*$menu*/ ctx[2][/*i*/ ctx[4]];
+    	let each_value_1 = /*$menu*/ ctx[2][/*j*/ ctx[5]];
     	validate_each_argument(each_value_1);
     	let each_blocks = [];
 
@@ -1970,8 +1979,8 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
-    			div1 = element("div");
-    			div0 = element("div");
+    			div = element("div");
+    			h3 = element("h3");
     			t0 = text(t0_value);
     			t1 = text(":");
     			t2 = space();
@@ -1981,29 +1990,29 @@ var app = (function () {
     			}
 
     			t3 = space();
-    			attr_dev(div0, "class", "mb-4");
-    			add_location(div0, file, 26, 8, 628);
-    			attr_dev(div1, "class", "mb-12");
-    			add_location(div1, file, 25, 6, 600);
+    			attr_dev(h3, "class", "mb-2 text-xl font-bold");
+    			add_location(h3, file, 29, 8, 718);
+    			attr_dev(div, "class", "mb-12");
+    			add_location(div, file, 28, 6, 690);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div1, anchor);
-    			append_dev(div1, div0);
-    			append_dev(div0, t0);
-    			append_dev(div0, t1);
-    			append_dev(div1, t2);
+    			insert_dev(target, div, anchor);
+    			append_dev(div, h3);
+    			append_dev(h3, t0);
+    			append_dev(h3, t1);
+    			append_dev(div, t2);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div1, null);
+    				each_blocks[i].m(div, null);
     			}
 
-    			append_dev(div1, t3);
+    			append_dev(div, t3);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*$types*/ 2 && t0_value !== (t0_value = /*i*/ ctx[4] + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*$t, $types*/ 10 && t0_value !== (t0_value = /*$t*/ ctx[3][/*j*/ ctx[5]][/*lang*/ ctx[0]] + "")) set_data_dev(t0, t0_value);
 
-    			if (dirty & /*$menu, $types, itemIndex, lang, $headerss*/ 15) {
-    				each_value_1 = /*$menu*/ ctx[2][/*i*/ ctx[4]];
+    			if (dirty & /*$menu, $types, itemIndex, $headers, lang*/ 23) {
+    				each_value_1 = /*$menu*/ ctx[2][/*j*/ ctx[5]];
     				validate_each_argument(each_value_1);
     				let i;
 
@@ -2015,7 +2024,7 @@ var app = (function () {
     					} else {
     						each_blocks[i] = create_each_block_1(child_ctx);
     						each_blocks[i].c();
-    						each_blocks[i].m(div1, t3);
+    						each_blocks[i].m(div, t3);
     					}
     				}
 
@@ -2027,7 +2036,7 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div1);
+    			if (detaching) detach_dev(div);
     			destroy_each(each_blocks, detaching);
     		}
     	};
@@ -2036,61 +2045,305 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(25:4) {#if $menu[i].length !== 0}",
+    		source: "(28:4) {#if $menu[j].length !== 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (28:8) {#each $menu[i] as i}
-    function create_each_block_1(ctx) {
-    	let t0_value = /*i*/ ctx[4] + "";
+    // (38:16) {#if i[itemIndex('minimum', $headers)]}
+    function create_if_block_3(ctx) {
+    	let div;
     	let t0;
+    	let t1_value = /*i*/ ctx[8][itemIndex("minimum", /*$headers*/ ctx[4])] + "";
     	let t1;
-    	let div2;
-    	let div0;
-    	let t2_value = /*i*/ ctx[4][itemIndex("name-" + /*lang*/ ctx[0], /*$headerss*/ ctx[3])] + "";
     	let t2;
-    	let t3;
-    	let div1;
-    	let t4_value = /*i*/ ctx[4][itemIndex("description-" + /*lang*/ ctx[0], /*$headerss*/ ctx[3])] + "";
-    	let t4;
 
     	const block = {
     		c: function create() {
-    			t0 = text(t0_value);
-    			t1 = space();
-    			div2 = element("div");
-    			div0 = element("div");
-    			t2 = text(t2_value);
-    			t3 = space();
-    			div1 = element("div");
-    			t4 = text(t4_value);
-    			add_location(div0, file, 30, 12, 742);
-    			add_location(div1, file, 31, 12, 807);
-    			attr_dev(div2, "class", "mb-8");
-    			add_location(div2, file, 29, 10, 711);
+    			div = element("div");
+    			t0 = text("Минимальный заказ ");
+    			t1 = text(t1_value);
+    			t2 = text("г");
+    			attr_dev(div, "class", "text-sm text-gray-900");
+    			add_location(div, file, 38, 18, 1184);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, t0, anchor);
-    			insert_dev(target, t1, anchor);
-    			insert_dev(target, div2, anchor);
-    			append_dev(div2, div0);
-    			append_dev(div0, t2);
-    			append_dev(div2, t3);
-    			append_dev(div2, div1);
-    			append_dev(div1, t4);
+    			insert_dev(target, div, anchor);
+    			append_dev(div, t0);
+    			append_dev(div, t1);
+    			append_dev(div, t2);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*$menu, $types*/ 6 && t0_value !== (t0_value = /*i*/ ctx[4] + "")) set_data_dev(t0, t0_value);
-    			if (dirty & /*$menu, $types, $headerss*/ 14 && t2_value !== (t2_value = /*i*/ ctx[4][itemIndex("name-" + /*lang*/ ctx[0], /*$headerss*/ ctx[3])] + "")) set_data_dev(t2, t2_value);
-    			if (dirty & /*$menu, $types, $headerss*/ 14 && t4_value !== (t4_value = /*i*/ ctx[4][itemIndex("description-" + /*lang*/ ctx[0], /*$headerss*/ ctx[3])] + "")) set_data_dev(t4, t4_value);
+    			if (dirty & /*$menu, $types, $headers*/ 22 && t1_value !== (t1_value = /*i*/ ctx[8][itemIndex("minimum", /*$headers*/ ctx[4])] + "")) set_data_dev(t1, t1_value);
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(t0);
-    			if (detaching) detach_dev(t1);
-    			if (detaching) detach_dev(div2);
+    			if (detaching) detach_dev(div);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_3.name,
+    		type: "if",
+    		source: "(38:16) {#if i[itemIndex('minimum', $headers)]}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (49:20) {:else}
+    function create_else_block(ctx) {
+    	let t_1;
+
+    	const block = {
+    		c: function create() {
+    			t_1 = text("г");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, t_1, anchor);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t_1);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_else_block.name,
+    		type: "else",
+    		source: "(49:20) {:else}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (47:18) {#if j === 'alcohol'}
+    function create_if_block_2(ctx) {
+    	let t_1;
+
+    	const block = {
+    		c: function create() {
+    			t_1 = text("л");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, t_1, anchor);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t_1);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_2.name,
+    		type: "if",
+    		source: "(47:18) {#if j === 'alcohol'}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (54:12) {#if i[itemIndex('available', $headers)] === 'FALSE'}
+    function create_if_block_1(ctx) {
+    	let div1;
+    	let div0;
+
+    	const block = {
+    		c: function create() {
+    			div1 = element("div");
+    			div0 = element("div");
+    			div0.textContent = "Закончилось!";
+    			attr_dev(div0, "class", "");
+    			add_location(div0, file, 55, 16, 1890);
+    			attr_dev(div1, "class", "");
+    			add_location(div1, file, 54, 14, 1859);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div1, anchor);
+    			append_dev(div1, div0);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div1);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_1.name,
+    		type: "if",
+    		source: "(54:12) {#if i[itemIndex('available', $headers)] === 'FALSE'}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (31:8) {#each $menu[j] as i}
+    function create_each_block_1(ctx) {
+    	let div7;
+    	let div6;
+    	let div2;
+    	let div0;
+    	let t0_value = /*i*/ ctx[8][itemIndex("name-" + /*lang*/ ctx[0], /*$headers*/ ctx[4])] + "";
+    	let t0;
+    	let t1;
+    	let show_if_1 = /*i*/ ctx[8][itemIndex("minimum", /*$headers*/ ctx[4])];
+    	let t2;
+    	let div1;
+    	let t3_value = /*i*/ ctx[8][itemIndex("description-" + /*lang*/ ctx[0], /*$headers*/ ctx[4])] + "";
+    	let t3;
+    	let t4;
+    	let div5;
+    	let div3;
+    	let t5_value = /*i*/ ctx[8][itemIndex("price", /*$headers*/ ctx[4])] + "";
+    	let t5;
+    	let t6;
+    	let t7;
+    	let div4;
+    	let t8_value = /*i*/ ctx[8][itemIndex("portion", /*$headers*/ ctx[4])] + "";
+    	let t8;
+    	let t9;
+    	let div6_class_value;
+    	let t10;
+    	let show_if = /*i*/ ctx[8][itemIndex("available", /*$headers*/ ctx[4])] === "FALSE";
+    	let if_block0 = show_if_1 && create_if_block_3(ctx);
+
+    	function select_block_type(ctx, dirty) {
+    		if (/*j*/ ctx[5] === "alcohol") return create_if_block_2;
+    		return create_else_block;
+    	}
+
+    	let current_block_type = select_block_type(ctx);
+    	let if_block1 = current_block_type(ctx);
+    	let if_block2 = show_if && create_if_block_1(ctx);
+
+    	const block = {
+    		c: function create() {
+    			div7 = element("div");
+    			div6 = element("div");
+    			div2 = element("div");
+    			div0 = element("div");
+    			t0 = text(t0_value);
+    			t1 = space();
+    			if (if_block0) if_block0.c();
+    			t2 = space();
+    			div1 = element("div");
+    			t3 = text(t3_value);
+    			t4 = space();
+    			div5 = element("div");
+    			div3 = element("div");
+    			t5 = text(t5_value);
+    			t6 = text("€");
+    			t7 = space();
+    			div4 = element("div");
+    			t8 = text(t8_value);
+    			t9 = space();
+    			if_block1.c();
+    			t10 = space();
+    			if (if_block2) if_block2.c();
+    			attr_dev(div0, "class", "font-bold");
+    			add_location(div0, file, 36, 16, 1038);
+    			add_location(div1, file, 40, 16, 1320);
+    			attr_dev(div2, "class", "pr-2");
+    			add_location(div2, file, 35, 14, 1003);
+    			attr_dev(div3, "class", "font-bold");
+    			add_location(div3, file, 43, 16, 1457);
+    			add_location(div4, file, 44, 16, 1539);
+    			attr_dev(div5, "class", "text-right");
+    			add_location(div5, file, 42, 14, 1416);
+
+    			attr_dev(div6, "class", div6_class_value = "" + ((/*i*/ ctx[8][itemIndex("available", /*$headers*/ ctx[4])] === "TRUE"
+    			? ""
+    			: "not-available") + " flex justify-between" + " svelte-1x08zxt"));
+
+    			add_location(div6, file, 32, 12, 853);
+    			attr_dev(div7, "class", "relative mb-4");
+    			add_location(div7, file, 31, 10, 813);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div7, anchor);
+    			append_dev(div7, div6);
+    			append_dev(div6, div2);
+    			append_dev(div2, div0);
+    			append_dev(div0, t0);
+    			append_dev(div2, t1);
+    			if (if_block0) if_block0.m(div2, null);
+    			append_dev(div2, t2);
+    			append_dev(div2, div1);
+    			append_dev(div1, t3);
+    			append_dev(div6, t4);
+    			append_dev(div6, div5);
+    			append_dev(div5, div3);
+    			append_dev(div3, t5);
+    			append_dev(div3, t6);
+    			append_dev(div5, t7);
+    			append_dev(div5, div4);
+    			append_dev(div4, t8);
+    			append_dev(div4, t9);
+    			if_block1.m(div4, null);
+    			append_dev(div7, t10);
+    			if (if_block2) if_block2.m(div7, null);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*$menu, $types, $headers*/ 22 && t0_value !== (t0_value = /*i*/ ctx[8][itemIndex("name-" + /*lang*/ ctx[0], /*$headers*/ ctx[4])] + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*$menu, $types, $headers*/ 22) show_if_1 = /*i*/ ctx[8][itemIndex("minimum", /*$headers*/ ctx[4])];
+
+    			if (show_if_1) {
+    				if (if_block0) {
+    					if_block0.p(ctx, dirty);
+    				} else {
+    					if_block0 = create_if_block_3(ctx);
+    					if_block0.c();
+    					if_block0.m(div2, t2);
+    				}
+    			} else if (if_block0) {
+    				if_block0.d(1);
+    				if_block0 = null;
+    			}
+
+    			if (dirty & /*$menu, $types, $headers*/ 22 && t3_value !== (t3_value = /*i*/ ctx[8][itemIndex("description-" + /*lang*/ ctx[0], /*$headers*/ ctx[4])] + "")) set_data_dev(t3, t3_value);
+    			if (dirty & /*$menu, $types, $headers*/ 22 && t5_value !== (t5_value = /*i*/ ctx[8][itemIndex("price", /*$headers*/ ctx[4])] + "")) set_data_dev(t5, t5_value);
+    			if (dirty & /*$menu, $types, $headers*/ 22 && t8_value !== (t8_value = /*i*/ ctx[8][itemIndex("portion", /*$headers*/ ctx[4])] + "")) set_data_dev(t8, t8_value);
+
+    			if (current_block_type !== (current_block_type = select_block_type(ctx))) {
+    				if_block1.d(1);
+    				if_block1 = current_block_type(ctx);
+
+    				if (if_block1) {
+    					if_block1.c();
+    					if_block1.m(div4, null);
+    				}
+    			}
+
+    			if (dirty & /*$menu, $types, $headers*/ 22 && div6_class_value !== (div6_class_value = "" + ((/*i*/ ctx[8][itemIndex("available", /*$headers*/ ctx[4])] === "TRUE"
+    			? ""
+    			: "not-available") + " flex justify-between" + " svelte-1x08zxt"))) {
+    				attr_dev(div6, "class", div6_class_value);
+    			}
+
+    			if (dirty & /*$menu, $types, $headers*/ 22) show_if = /*i*/ ctx[8][itemIndex("available", /*$headers*/ ctx[4])] === "FALSE";
+
+    			if (show_if) {
+    				if (if_block2) ; else {
+    					if_block2 = create_if_block_1(ctx);
+    					if_block2.c();
+    					if_block2.m(div7, null);
+    				}
+    			} else if (if_block2) {
+    				if_block2.d(1);
+    				if_block2 = null;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div7);
+    			if (if_block0) if_block0.d();
+    			if_block1.d();
+    			if (if_block2) if_block2.d();
     		}
     	};
 
@@ -2098,17 +2351,17 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(28:8) {#each $menu[i] as i}",
+    		source: "(31:8) {#each $menu[j] as i}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (24:2) {#each $types as i}
+    // (27:2) {#each $types as j}
     function create_each_block(ctx) {
     	let if_block_anchor;
-    	let if_block = /*$menu*/ ctx[2][/*i*/ ctx[4]].length !== 0 && create_if_block(ctx);
+    	let if_block = /*$menu*/ ctx[2][/*j*/ ctx[5]].length !== 0 && create_if_block(ctx);
 
     	const block = {
     		c: function create() {
@@ -2120,7 +2373,7 @@ var app = (function () {
     			insert_dev(target, if_block_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (/*$menu*/ ctx[2][/*i*/ ctx[4]].length !== 0) {
+    			if (/*$menu*/ ctx[2][/*j*/ ctx[5]].length !== 0) {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
@@ -2143,7 +2396,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(24:2) {#each $types as i}",
+    		source: "(27:2) {#each $types as j}",
     		ctx
     	});
 
@@ -2153,7 +2406,10 @@ var app = (function () {
     function create_fragment$1(ctx) {
     	let t0;
     	let t1;
-    	let div;
+    	let div1;
+    	let div0;
+    	let h1;
+    	let t3;
     	let current;
     	const tailwindcss = new Tailwindcss({ $$inline: true });
     	let each_value = /*$types*/ ctx[1];
@@ -2169,15 +2425,23 @@ var app = (function () {
     			create_component(tailwindcss.$$.fragment);
     			t0 = space();
     			t1 = space();
-    			div = element("div");
+    			div1 = element("div");
+    			div0 = element("div");
+    			h1 = element("h1");
+    			h1.textContent = "Grape Cafe - Menu";
+    			t3 = space();
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			document.title = "Grape Cafe";
-    			attr_dev(div, "class", "wrapper py-8 text-black");
-    			add_location(div, file, 22, 0, 502);
+    			attr_dev(h1, "class", "text-2xl font-bold");
+    			add_location(h1, file, 24, 4, 567);
+    			attr_dev(div0, "class", "mb-4");
+    			add_location(div0, file, 23, 2, 544);
+    			attr_dev(div1, "class", "wrapper py-8 text-black");
+    			add_location(div1, file, 22, 0, 504);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2186,16 +2450,19 @@ var app = (function () {
     			mount_component(tailwindcss, target, anchor);
     			insert_dev(target, t0, anchor);
     			insert_dev(target, t1, anchor);
-    			insert_dev(target, div, anchor);
+    			insert_dev(target, div1, anchor);
+    			append_dev(div1, div0);
+    			append_dev(div0, h1);
+    			append_dev(div1, t3);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div, null);
+    				each_blocks[i].m(div1, null);
     			}
 
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*$menu, $types, itemIndex, lang, $headerss*/ 15) {
+    			if (dirty & /*$menu, $types, itemIndex, $headers, lang, $t*/ 31) {
     				each_value = /*$types*/ ctx[1];
     				validate_each_argument(each_value);
     				let i;
@@ -2208,7 +2475,7 @@ var app = (function () {
     					} else {
     						each_blocks[i] = create_each_block(child_ctx);
     						each_blocks[i].c();
-    						each_blocks[i].m(div, null);
+    						each_blocks[i].m(div1, null);
     					}
     				}
 
@@ -2232,7 +2499,7 @@ var app = (function () {
     			destroy_component(tailwindcss, detaching);
     			if (detaching) detach_dev(t0);
     			if (detaching) detach_dev(t1);
-    			if (detaching) detach_dev(div);
+    			if (detaching) detach_dev(div1);
     			destroy_each(each_blocks, detaching);
     		}
     	};
@@ -2251,13 +2518,16 @@ var app = (function () {
     function instance$1($$self, $$props, $$invalidate) {
     	let $types;
     	let $menu;
-    	let $headerss;
+    	let $t;
+    	let $headers;
     	validate_store(types, "types");
     	component_subscribe($$self, types, $$value => $$invalidate(1, $types = $$value));
     	validate_store(menu, "menu");
     	component_subscribe($$self, menu, $$value => $$invalidate(2, $menu = $$value));
-    	validate_store(headerss, "headerss");
-    	component_subscribe($$self, headerss, $$value => $$invalidate(3, $headerss = $$value));
+    	validate_store(t, "t");
+    	component_subscribe($$self, t, $$value => $$invalidate(3, $t = $$value));
+    	validate_store(headers, "headers");
+    	component_subscribe($$self, headers, $$value => $$invalidate(4, $headers = $$value));
     	const lang = "ru";
 
     	onMount(() => {
@@ -2279,16 +2549,18 @@ var app = (function () {
     		waitingResponse,
     		menu,
     		types,
-    		headerss,
+    		headers,
+    		t,
     		getIp,
     		Tailwindcss,
     		lang,
     		$types,
     		$menu,
-    		$headerss
+    		$t,
+    		$headers
     	});
 
-    	return [lang, $types, $menu, $headerss];
+    	return [lang, $types, $menu, $t, $headers];
     }
 
     class App extends SvelteComponentDev {

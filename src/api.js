@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { itemIndex } from './functions'
-import { waitingResponse, menu, types, headerss } from './stores'
+import { waitingResponse, menu, types, headers } from './stores'
 
 function reloadApp() {
   setTimeout(() => {
@@ -25,20 +25,18 @@ async function getIp() {
     }).then(response => {
       let items = response.data.values
       const t = response.data.values[0]
-      types.set(t)
-      // const types = response.data.values[0]
-      const headers = response.data.values[1]
+      const h = response.data.values[1]
       items.splice(0, 2)
 
 
       let obj = {}
       t.forEach((i, index) => {
-        items.filter(item => item[itemIndex('type', headers)] === t[index])
-        obj[i] = items.filter(item => item[itemIndex('type', headers)] === t[index])
+        items.filter(item => item[itemIndex('type', h)] === t[index])
+        obj[i] = items.filter(item => item[itemIndex('type', h)] === t[index])
       })
 
-      menu.set(items)
-      headerss.set(headers)
+      types.set(t)
+      headers.set(h)
       menu.set(obj)
 
     })
