@@ -20,6 +20,6 @@
     max-width: 640px;
     @apply
     mx-auto
-    px-2;
+    px-4;
   }
 </style>

@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store'
 
 export const waitingResponse = writable(true)
-export const menu = writable('Connecting')
+export const menu = writable({})
 export const types = writable([])
 export const headers = writable([])
 export const t = writable({

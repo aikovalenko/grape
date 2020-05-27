@@ -36,13 +36,13 @@
                 <div class="flex flex-wrap items-center">
                   <div class="font-bold mr-1">{ i[itemIndex('name-' + lang, $headers)] }</div>
                   {#if i[itemIndex('available', $headers)] === 'FALSE'}
-                    <div class="inline-block p-1 bg-red-300 rounded-lg text-sm">
-                      <div class="">Закончилось</div>
+                    <div class="inline-block py-1 px-2 bg-red-300 rounded-lg text-sm leading-4">
+                      <div class="">закончилось</div>
                     </div>
                   {/if}
                   {#if i[itemIndex('recommend', $headers)] === 'TRUE' && i[itemIndex('available', $headers)] !== 'FALSE'}
-                    <div class="inline-block p-1 bg-green-300 rounded-lg text-sm">
-                      <div class="">Рекомендуем</div>
+                    <div class="inline-block py-1 px-2 bg-green-300 rounded-lg text-sm leading-4">
+                      <div class="">рекомендуем</div>
                     </div>
                   {/if}
                 </div>
@@ -64,6 +64,7 @@
       <hr class="mb-6">
     {/if}
   {/each}
+  <div class="text-center font-bold">Приятного аппетита!</div>
 </div>
 
 <style>
