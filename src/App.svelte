@@ -21,8 +21,9 @@
 </svelte:head>
 
 <div class="wrapper py-8 text-black">
-  <div class="mb-4">
+  <div class="flex justify-between items-center mb-4">
     <h1 class="text-2xl font-bold">Grape Cafe - Menu</h1>
+    <div class="border-2 p-2 rounded-lg">РУ</div>
   </div>
   {#each $types as j}
     {#if $menu[j].length !== 0}
