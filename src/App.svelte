@@ -23,7 +23,7 @@
 <div class="wrapper py-8 text-black">
   <div class="flex justify-between items-center mb-4">
     <h1 class="text-2xl font-bold">Grape Cafe &mdash; Menu</h1>
-    <div class="border-2 p-2 rounded-lg">РУ</div>
+    <div class="border py-1 px-2 rounded-lg">РУ</div>
   </div>
   {#each $types as j}
     {#if $menu[j].length !== 0}
@@ -31,15 +31,18 @@
         <h3 class="mb-4 text-2xl font-bold">{$t[j][lang]}</h3>
         {#each $menu[j] as i}
           <div class="relative mb-4">
-            <div
-                class="{i[itemIndex('available', $headers)] === 'TRUE' ? '' : ''} flex justify-between"
-            >
+            <div class="flex justify-between">
               <div class="pr-2">
                 <div class="flex flex-wrap items-center">
                   <div class="font-bold mr-1">{ i[itemIndex('name-' + lang, $headers)] }</div>
                   {#if i[itemIndex('available', $headers)] === 'FALSE'}
                     <div class="inline-block p-1 bg-red-300 rounded-lg text-sm">
                       <div class="">Закончилось</div>
+                    </div>
+                  {/if}
+                  {#if i[itemIndex('recommend', $headers)] === 'TRUE' && i[itemIndex('available', $headers)] !== 'FALSE'}
+                    <div class="inline-block p-1 bg-green-300 rounded-lg text-sm">
+                      <div class="">Рекомендуем</div>
                     </div>
                   {/if}
                 </div>
